@@ -1,23 +1,25 @@
-# ENCUESTAS — Paseo Santiago · LOHR Collection
+# ENCUESTAS — Checklist · Casa Santiago
 
-Guía digital de página única (single-file) para la propiedad **Paseo Santiago** de
-LOHR Collection. Construida como un único `index.html` con estilos y scripts
-embebidos, mapa Leaflet e imágenes en base64.
+Encuesta / checklist de "prueba de estancia" para la casa **Casa Santiago** de
+LOHR Collection. App de página única (single-file): recorrido por áreas con
+acordeones, evaluación Bien / Regular / Mal por punto, barra de progreso,
+calificación 1–10, notas por área, veredicto final y resumen exportable a
+WhatsApp o portapapeles. Guarda el avance en el propio dispositivo
+(localStorage).
 
 ## Estructura
 
-- `index.html` — la aplicación completa (HTML + CSS + JS + imágenes embebidas).
-
-## Desarrollo
-
-Al ser un archivo único, basta con abrir `index.html` en el navegador o servirlo
-con cualquier servidor estático:
-
-```bash
-python3 -m http.server 8000
-# luego abrir http://localhost:8000
-```
+- `index.html` — la encuesta/checklist completa (HTML + CSS + JS embebidos). **Es la que se despliega.**
+- `backup-guia-paseo-santiago.html` — respaldo de la guía de huéspedes de Paseo Santiago (proyecto distinto, no se despliega desde aquí).
 
 ## Despliegue
 
-El proyecto se despliega en Vercel como sitio estático.
+Conectado a Vercel (proyecto **checklist-casa-santiago**). Cada push a la rama
+de producción redespliega automáticamente `index.html` en
+`checklist-casa-santiago.vercel.app`.
+
+## Desarrollo local
+
+```bash
+python3 -m http.server 8000   # abrir http://localhost:8000
+```
