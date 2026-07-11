@@ -285,9 +285,12 @@
     <div class="sheet-body">
       <textarea id="summaryText" readonly></textarea>
     </div>
-    <div class="sheet-foot">
-      <button class="btn btn-ghost" id="waBtn" style="flex:1">WhatsApp</button>
-      <button class="btn btn-primary" id="copyBtn" style="flex:1">Copiar todo</button>
+    <div class="sheet-foot" style="flex-direction:column;gap:8px;">
+      <button class="btn btn-primary" id="sendBtn" style="width:100%;">Enviar respuesta ✓</button>
+      <div style="display:flex;gap:10px;width:100%;">
+        <button class="btn btn-ghost" id="waBtn" style="flex:1">WhatsApp</button>
+        <button class="btn btn-ghost" id="copyBtn" style="flex:1">Copiar</button>
+      </div>
     </div>
   </div>
 </div>
@@ -297,6 +300,14 @@
 <script>
 (function(){
   "use strict";
+
+  // ---------- Configuración Supabase ----------
+  // La anon key es pública por diseño (protegida por Row Level Security).
+  // Se obtiene en: Supabase → Settings → API → Project API keys → anon public
+  const SUPABASE_URL = "https://lihudwczbdbvauumnuag.supabase.co";
+  const SUPABASE_ANON_KEY = "PEGA_AQUI_TU_ANON_KEY_DE_SUPABASE";
+  const SUPABASE_TABLE = "respuestas";
+  const supabaseListo = () => SUPABASE_ANON_KEY.indexOf("PEGA_AQUI") !== 0;
 
   // ---------- Estructura del checklist ----------
   function roomItems(extras){
@@ -672,6 +683,48 @@
     return out.trim();
   }
 
+  // ---------- Guardar en Supabase ----------
+  function buildPayload(){
+    let total=0, bien=0, reg=0, mal=0;
+    SECTIONS.forEach(s=> s.items.forEach((_,i)=>{
+      total++; const v=state.items[s.id+"::"+i];
+      if(v==="bien")bien++; else if(v==="reg")reg++; else if(v==="mal")mal++;
+    }));
+    return {
+      evaluador:   state.ctx.name || null,
+      fecha:       state.ctx.date || null,
+      personas:    state.ctx.people || null,
+      rating:      state.rating || null,
+      recomienda:  state.recomienda || null,
+      avance_bien: bien,
+      avance_reg:  reg,
+      avance_mal:  mal,
+      avance_total:total,
+      items:       state.items,
+      notas:       state.notes,
+      final:       state.finalText,
+      resumen:     buildSummary()
+    };
+  }
+
+  async function enviarRespuesta(){
+    const res = await fetch(SUPABASE_URL + "/rest/v1/" + SUPABASE_TABLE, {
+      method:"POST",
+      headers:{
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify(buildPayload())
+    });
+    if(!res.ok){
+      const detail = await res.text().catch(()=> "");
+      throw new Error("HTTP "+res.status+" "+detail);
+    }
+    return true;
+  }
+
   // ---------- Modal / acciones ----------
   const modal = $("#modal");
   $("#summaryBtn").addEventListener("click", ()=>{
@@ -703,6 +756,28 @@
   $("#waBtn").addEventListener("click", ()=>{
     const txt = encodeURIComponent($("#summaryText").value);
     window.open("https://wa.me/?text="+txt, "_blank");
+  });
+
+  $("#sendBtn").addEventListener("click", async ()=>{
+    const btn = $("#sendBtn");
+    if(!supabaseListo()){
+      toast("Falta configurar la clave de Supabase");
+      return;
+    }
+    const original = btn.textContent;
+    btn.disabled = true; btn.textContent = "Enviando…";
+    try{
+      await enviarRespuesta();
+      toast("Respuesta enviada ✓");
+      btn.textContent = "Enviado ✓";
+      setTimeout(()=>{
+        modal.classList.remove("open");
+        btn.disabled = false; btn.textContent = original;
+      }, 1200);
+    }catch(e){
+      toast("No se pudo enviar. Usa WhatsApp o revisa tu internet.");
+      btn.disabled = false; btn.textContent = original;
+    }
   });
 
   $("#resetBtn").addEventListener("click", ()=>{
