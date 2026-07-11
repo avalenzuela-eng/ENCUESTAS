@@ -287,6 +287,7 @@
     </div>
     <div class="sheet-foot" style="flex-direction:column;gap:8px;">
       <button class="btn btn-primary" id="sendBtn" style="width:100%;">Enviar respuesta ✓</button>
+      <div id="sendErr" style="display:none;font-size:12.5px;color:var(--mal);background:var(--mal-bg);border:1px solid var(--mal);border-radius:9px;padding:9px 11px;white-space:pre-wrap;word-break:break-word;line-height:1.4;"></div>
       <div style="display:flex;gap:10px;width:100%;">
         <button class="btn btn-ghost" id="waBtn" style="flex:1">WhatsApp</button>
         <button class="btn btn-ghost" id="copyBtn" style="flex:1">Copiar</button>
@@ -708,19 +709,24 @@
   }
 
   async function enviarRespuesta(){
-    const res = await fetch(SUPABASE_URL + "/rest/v1/" + SUPABASE_TABLE, {
-      method:"POST",
-      headers:{
-        "apikey": SUPABASE_ANON_KEY,
-        "Authorization": "Bearer " + SUPABASE_ANON_KEY,
-        "Content-Type": "application/json",
-        "Prefer": "return=minimal"
-      },
-      body: JSON.stringify(buildPayload())
-    });
+    let res;
+    try{
+      res = await fetch(SUPABASE_URL + "/rest/v1/" + SUPABASE_TABLE, {
+        method:"POST",
+        headers:{
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+          "Content-Type": "application/json",
+          "Prefer": "return=minimal"
+        },
+        body: JSON.stringify(buildPayload())
+      });
+    }catch(netErr){
+      throw new Error("Red/CORS: no se pudo contactar a Supabase (" + (netErr.message||netErr) + ")");
+    }
     if(!res.ok){
       const detail = await res.text().catch(()=> "");
-      throw new Error("HTTP "+res.status+" "+detail);
+      throw new Error("HTTP " + res.status + " · " + (detail || res.statusText));
     }
     return true;
   }
@@ -760,11 +766,13 @@
 
   $("#sendBtn").addEventListener("click", async ()=>{
     const btn = $("#sendBtn");
+    const errBox = $("#sendErr");
     if(!supabaseListo()){
       toast("Falta configurar la clave de Supabase");
       return;
     }
     const original = btn.textContent;
+    errBox.style.display = "none"; errBox.textContent = "";
     btn.disabled = true; btn.textContent = "Enviando…";
     try{
       await enviarRespuesta();
@@ -775,7 +783,9 @@
         btn.disabled = false; btn.textContent = original;
       }, 1200);
     }catch(e){
-      toast("No se pudo enviar. Usa WhatsApp o revisa tu internet.");
+      toast("No se pudo enviar");
+      errBox.textContent = "⚠️ Detalle del error:\n" + (e.message || e);
+      errBox.style.display = "block";
       btn.disabled = false; btn.textContent = original;
     }
   });
