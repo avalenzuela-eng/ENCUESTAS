@@ -33,3 +33,18 @@ create policy "anon puede insertar respuestas"
   for insert
   to anon
   with check (true);
+
+-- ============================================================
+-- Lectura para el PANEL PRIVADO (resultados.html)
+-- Solo usuarios autenticados (login con correo+contraseña) pueden leer.
+-- El rol anónimo NUNCA puede leer, solo insertar.
+-- ============================================================
+grant select on public.respuestas to authenticated;
+drop policy if exists "authenticated puede leer respuestas" on public.respuestas;
+create policy "authenticated puede leer respuestas"
+  on public.respuestas
+  for select
+  to authenticated
+  using (true);
+
+notify pgrst, 'reload schema';
