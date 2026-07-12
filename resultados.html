@@ -27,8 +27,6 @@
   header.hero .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#C8B48A;font-weight:600;margin:0 0 6px;}
   header.hero h1{font-family:'Fraunces',serif;font-weight:500;font-size:28px;line-height:1.05;margin:0;letter-spacing:-.01em;}
 
-  .demo-banner{background:var(--brass);color:#fff;text-align:center;font-size:12.5px;font-weight:600;padding:7px 16px;letter-spacing:.02em;}
-
   .login-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow);margin-top:26px;}
   .login-card h2{font-family:'Fraunces',serif;font-weight:500;font-size:19px;margin:0 0 4px;}
   .login-card p.hint{font-size:13px;color:var(--muted);margin:0 0 18px;}
@@ -121,7 +119,6 @@
 </head>
 <body>
 <div class="tiles"></div>
-<div class="demo-banner" id="demoBanner" hidden>◆ MODO DEMO · datos simulados (no reales)</div>
 <header class="hero">
   <p class="eyebrow">Lohr Collection · Panel privado</p>
   <h1>Resultados · Casa Santiago</h1>
@@ -158,7 +155,6 @@
 
 </div>
 
-<script src="demo-data.js"></script>
 <script>
 (function(){
   "use strict";
@@ -166,7 +162,6 @@
   const SUPABASE_URL = "https://lihudwczbdbvauumnuag.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxpaHVkd2N6YmRidmF1dW1udWFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM3MDAzODYsImV4cCI6MjA5OTI3NjM4Nn0.FUd0HAe-nH7jJezJr1MIIslh1qps9WM5CAdSBlJaeqI";
   const TOKEN_KEY = "casa_santiago_token";
-  const DEMO = new URLSearchParams(location.search).get("demo") === "1";
 
   const $ = s => document.querySelector(s);
   const loginView = $("#login");
@@ -427,20 +422,12 @@
     }catch(e){ errBox.textContent = "⚠️ "+(e.message||e); errBox.style.display = "block"; }
     finally{ btn.disabled = false; btn.textContent = t; }
   });
-  $("#refreshBtn").addEventListener("click", ()=> DEMO ? render(window.DEMO_DATA) : cargar());
+  $("#refreshBtn").addEventListener("click", cargar);
   $("#logoutBtn").addEventListener("click", ()=>{ sessionStorage.removeItem(TOKEN_KEY); showLogin(); });
 
   // ---------- Arranque ----------
-  if(DEMO){
-    $("#demoBanner").hidden = false;
-    $("#refreshBtn").hidden = true;
-    showApp();
-    render(window.DEMO_DATA || []);
-  }else{
-    cargar();
-  }
+  cargar();
 })();
 </script>
-<script src="demo-data.js"></script>
 </body>
 </html>
