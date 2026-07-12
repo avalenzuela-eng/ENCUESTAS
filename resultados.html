@@ -19,16 +19,16 @@
   html,body{margin:0;padding:0;overflow-x:hidden;-webkit-text-size-adjust:100%;}
   body{background:var(--bone);color:var(--ink);font-family:'Inter',system-ui,sans-serif;
     font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;padding-bottom:40px;}
-  .wrap{max-width:640px;margin:0 auto;width:100%;padding:0 16px;}
+  .wrap{max-width:660px;margin:0 auto;width:100%;padding:0 16px;}
   .serif{font-family:'Fraunces',serif;font-weight:500;}
   .tiles{height:10px;background:repeating-linear-gradient(135deg,var(--jade) 0 10px,var(--brass) 10px 20px);opacity:.9;}
 
-  /* Header */
   header.hero{background:var(--jade);color:#F3EFE6;padding:calc(22px + env(safe-area-inset-top)) 16px 20px;}
   header.hero .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#C8B48A;font-weight:600;margin:0 0 6px;}
   header.hero h1{font-family:'Fraunces',serif;font-weight:500;font-size:28px;line-height:1.05;margin:0;letter-spacing:-.01em;}
 
-  /* Login */
+  .demo-banner{background:var(--brass);color:#fff;text-align:center;font-size:12.5px;font-weight:600;padding:7px 16px;letter-spacing:.02em;}
+
   .login-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow);margin-top:26px;}
   .login-card h2{font-family:'Fraunces',serif;font-weight:500;font-size:19px;margin:0 0 4px;}
   .login-card p.hint{font-size:13px;color:var(--muted);margin:0 0 18px;}
@@ -42,17 +42,50 @@
   .btn-ghost{background:var(--card);border:1px solid var(--line);color:var(--ink);}
   .err{display:none;font-size:12.5px;color:var(--mal);background:var(--mal-bg);border:1px solid var(--mal);border-radius:9px;padding:9px 11px;white-space:pre-wrap;word-break:break-word;line-height:1.4;margin-top:6px;}
 
-  /* Toolbar */
-  .toolbar{display:flex;align-items:center;gap:10px;margin:20px 0 8px;flex-wrap:wrap;}
-  .toolbar .count{font-family:'Fraunces',serif;font-size:19px;font-weight:500;flex:1;min-width:140px;}
+  .toolbar{display:flex;align-items:center;gap:10px;margin:20px 0 10px;flex-wrap:wrap;}
+  .toolbar .count{font-family:'Fraunces',serif;font-size:19px;font-weight:500;flex:1;min-width:130px;}
   .toolbar .count small{font-family:'Inter',sans-serif;font-size:12.5px;color:var(--muted);font-weight:500;display:block;margin-top:1px;}
   .btn-sm{width:auto;padding:9px 14px;font-size:13px;border-radius:10px;}
 
-  /* Stats */
-  .stats{display:flex;gap:8px;margin:6px 0 14px;flex-wrap:wrap;}
-  .stat{flex:1;min-width:90px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 12px;box-shadow:var(--shadow);}
+  /* Section blocks */
+  .block{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden;}
+  .block-head{padding:15px 16px 4px;}
+  .block-head h3{font-family:'Fraunces',serif;font-weight:500;font-size:17px;margin:0;display:flex;align-items:center;gap:8px;}
+  .block-head p{font-size:12px;color:var(--muted);margin:3px 0 0;}
+  .block-body{padding:12px 16px 16px;}
+
+  .stats{display:flex;gap:8px;flex-wrap:wrap;}
+  .stat{flex:1;min-width:88px;background:var(--bone);border:1px solid var(--line);border-radius:12px;padding:11px 12px;}
   .stat .n{font-family:'Fraunces',serif;font-size:22px;font-weight:600;line-height:1;}
   .stat .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:5px;}
+
+  .recbar{display:flex;height:12px;border-radius:99px;overflow:hidden;margin:12px 0 6px;background:var(--line);}
+  .recbar span{display:block;height:100%;}
+  .reclegend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);}
+  .reclegend b{color:var(--ink);}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:99px;margin-right:5px;vertical-align:middle;}
+
+  /* Focos de atención (agregado) */
+  .problem{padding:11px 0;border-bottom:1px solid var(--line);}
+  .problem:last-child{border-bottom:none;}
+  .problem .pl{font-size:13.5px;font-weight:500;margin-bottom:7px;line-height:1.35;}
+  .problem .pl .sec{color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;}
+  .pbar{display:flex;height:10px;border-radius:99px;overflow:hidden;background:var(--line);}
+  .pbar .mal{background:var(--mal);} .pbar .reg{background:var(--reg);}
+  .pcount{display:flex;gap:8px;margin-top:6px;font-size:11.5px;font-weight:600;}
+  .pcount .m{color:var(--mal);} .pcount .r{color:var(--reg);}
+
+  /* Comentarios agrupados */
+  .cgroup{margin-bottom:16px;}
+  .cgroup:last-child{margin-bottom:0;}
+  .cgroup > .ct{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px;display:flex;align-items:center;gap:7px;}
+  .cgroup.gusto > .ct{color:var(--bien);} .cgroup.molesto > .ct{color:var(--mal);}
+  .cgroup.falta > .ct{color:var(--reg);} .cgroup.libre > .ct{color:var(--jade);}
+  .comment{background:var(--bone);border:1px solid var(--line);border-left:3px solid var(--line);border-radius:10px;padding:9px 12px;margin-bottom:7px;font-size:13.5px;line-height:1.45;}
+  .cgroup.gusto .comment{border-left-color:var(--bien);} .cgroup.molesto .comment{border-left-color:var(--mal);}
+  .cgroup.falta .comment{border-left-color:var(--reg);} .cgroup.libre .comment{border-left-color:var(--jade);}
+  .comment .who{font-size:11px;color:var(--muted);font-weight:600;margin-top:4px;}
+  .cempty{font-size:12.5px;color:var(--muted);font-style:italic;}
 
   /* Response cards */
   .rcard{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);margin-bottom:12px;overflow:hidden;}
@@ -71,15 +104,24 @@
   .tag.mal{background:var(--mal-bg);border-color:var(--mal);color:var(--mal);}
   .rc-body{display:none;border-top:1px solid var(--line);padding:14px 16px;}
   .rcard.open .rc-body{display:block;}
-  .rc-body pre{white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:12.5px;line-height:1.5;color:var(--ink);background:var(--bone);border:1px solid var(--line);border-radius:10px;padding:12px;margin:0;}
+  .rc-block{margin-bottom:14px;}
+  .rc-block:last-child{margin-bottom:0;}
+  .rc-block .h{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px;}
+  .rc-flag{font-size:13px;padding:3px 0;line-height:1.4;}
+  .rc-c{font-size:13.5px;line-height:1.45;margin-bottom:8px;}
+  .rc-c .lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:block;margin-bottom:2px;}
+  details.raw{margin-top:6px;} details.raw summary{font-size:12px;color:var(--jade);cursor:pointer;font-weight:600;}
+  details.raw pre{white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:12px;line-height:1.5;color:var(--ink);background:var(--bone);border:1px solid var(--line);border-radius:10px;padding:12px;margin:8px 0 0;}
 
   .empty,.loading{text-align:center;color:var(--muted);font-size:14px;padding:40px 16px;}
+  .section-title{font-family:'Fraunces',serif;font-weight:500;font-size:15px;margin:22px 2px 10px;color:var(--ink);}
   .footnote{text-align:center;font-size:11.5px;color:var(--muted);padding:22px 16px 6px;}
   [hidden]{display:none !important;}
 </style>
 </head>
 <body>
 <div class="tiles"></div>
+<div class="demo-banner" id="demoBanner" hidden>◆ MODO DEMO · datos simulados (no reales)</div>
 <header class="hero">
   <p class="eyebrow">Lohr Collection · Panel privado</p>
   <h1>Resultados · Casa Santiago</h1>
@@ -87,7 +129,6 @@
 
 <div class="wrap">
 
-  <!-- LOGIN -->
   <div id="login">
     <div class="login-card">
       <h2>Acceso privado</h2>
@@ -103,20 +144,21 @@
     </div>
   </div>
 
-  <!-- APP -->
   <div id="app" hidden>
     <div class="toolbar">
       <div class="count"><span id="countN">—</span> respuestas<small id="countSub"></small></div>
       <button class="btn btn-ghost btn-sm" id="refreshBtn">Actualizar</button>
-      <button class="btn btn-ghost btn-sm" id="logoutBtn">Salir</button>
+      <button class="btn btn-ghost btn-sm" id="logoutBtn" hidden>Salir</button>
     </div>
-    <div class="stats" id="stats"></div>
+    <div id="analysis"></div>
+    <div class="section-title">Respuestas individuales</div>
     <div id="list"></div>
     <p class="footnote">Panel privado · las respuestas se guardan en Supabase.</p>
   </div>
 
 </div>
 
+<script src="demo-data.js"></script>
 <script>
 (function(){
   "use strict";
@@ -124,59 +166,154 @@
   const SUPABASE_URL = "https://lihudwczbdbvauumnuag.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxpaHVkd2N6YmRidmF1dW1udWFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM3MDAzODYsImV4cCI6MjA5OTI3NjM4Nn0.FUd0HAe-nH7jJezJr1MIIslh1qps9WM5CAdSBlJaeqI";
   const TOKEN_KEY = "casa_santiago_token";
+  const DEMO = new URLSearchParams(location.search).get("demo") === "1";
 
   const $ = s => document.querySelector(s);
   const loginView = $("#login");
   const appView = $("#app");
-
   function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, c=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c])); }
 
-  // ---------- Auth ----------
-  async function login(email, password){
-    const r = await fetch(SUPABASE_URL + "/auth/v1/token?grant_type=password", {
-      method:"POST",
-      headers:{ "apikey":SUPABASE_ANON_KEY, "Content-Type":"application/json" },
-      body: JSON.stringify({ email, password })
-    });
-    const data = await r.json().catch(()=>({}));
-    if(!r.ok){ throw new Error(data.error_description || data.msg || data.message || ("HTTP "+r.status)); }
-    return data.access_token;
+  // ---------- Mapa de puntos (para nombrar cada item marcado) ----------
+  function roomItems(extras){
+    return [
+      "Cama — colchón cómodo","Cama — almohadas cómodas y suficientes","Cama — ropa de cama limpia",
+      "Clima — el aire enfría bien","Iluminación — luz general suficiente","Iluminación — lámpara de lectura",
+      "Iluminación — cortinas / blackout","Baño — buena presión de agua","Baño — agua caliente",
+      "Baño — regadera, WC y drenaje","Baño — toallas, shampoo, papel","Baño — limpio y ventilado",
+      "Limpieza — sin polvo","Limpieza — rincones y bajo la cama","Limpieza — ventanas y vidrios",
+      "Wifi — buena señal en el cuarto","Wifi — contactos funcionan","Guardado — clóset y ganchos"
+    ].concat(extras||[]);
+  }
+  const SEC = [
+    { id:"llegada", emoji:"🔑", title:"Llegada y acceso", items:["Fácil de encontrar","Instrucciones de entrada","Chapa/llaves/código","Estacionamiento","Primera impresión"] },
+    { id:"limpieza", emoji:"✨", title:"Limpieza general", items:["Casa limpia al llegar","Sin malos olores","Sin polvo","Pisos trapeados","Vidrios limpios","Blancos y toallas","Sin insectos"] },
+    { id:"hab1", emoji:"🛏️", title:"Cuarto 1 (calle)", items:roomItems(["Ruido — poco ruido de calle","Ventana — cierra y aísla"]) },
+    { id:"hab2", emoji:"🛏️", title:"Cuarto 2 (principal)", items:roomItems(["Vista a la piscina","Espacio amplio"]) },
+    { id:"hab3", emoji:"🛏️", title:"Cuarto 3 (arriba)", items:roomItems(["Clima — no se calienta arriba","Escalera segura"]) },
+    { id:"hab4", emoji:"🛏️", title:"Cuarto 4 (camas dobles)", items:roomItems(["Las 2 camas cómodas","Espacio entre camas"]) },
+    { id:"medio_bano", emoji:"🚽", title:"Medio baño", items:["WC funciona","Lavabo con presión","Drenaje","Jabón y papel","Limpio","Iluminación","Ventilación"] },
+    { id:"cocina", emoji:"🍳", title:"Cocina", items:["Estufa/parrilla","Horno","Refri y congelador","Microondas","Purificador de agua","Cafetera","Platos y vasos","Ollas y sartenes","Básicos (sal/aceite)","Limpia sin grasa","Basura con bolsas"] },
+    { id:"sala", emoji:"🛋️", title:"Sala", items:["Muebles cómodos","Iluminación","Limpia y ordenada","Decoración agradable"] },
+    { id:"comedor", emoji:"🍽️", title:"Comedor", items:["Mesa y sillas suficientes","Vajilla completa","Buena iluminación"] },
+    { id:"tv", emoji:"📺", title:"Sala de TV", items:["La TV enciende","Netflix/streaming","Control con pilas","Buen sonido","Sillones cómodos"] },
+    { id:"piscina", emoji:"🏊", title:"Piscina", items:["Agua limpia","Temperatura agradable","El agua circula","Área sin riesgos","Camastros suficientes","Iluminación de noche","Segura"] },
+    { id:"exterior", emoji:"🌿", title:"Terraza y exteriores", items:["Área exterior limpia","Mobiliario exterior","Iluminación exterior","Plantas y jardín"] },
+    { id:"tech", emoji:"📶", title:"Wifi y tecnología", items:["Wifi conecta fácil","Velocidad buena","Reiniciar router","Señal de celular","Cerraduras/smart home"] },
+    { id:"seguridad", emoji:"🔒", title:"Seguridad", items:["Puertas y ventanas con seguro","Detector de humo","Botiquín","Iluminación exterior","Salidas despejadas"] },
+    { id:"confort", emoji:"🌡️", title:"Prueba a carga completa", items:["Agua caliente con varias regaderas","Aires con todos prendidos","Wifi con todas conectadas","Ruido de calle tolerable","No se oye entre cuartos","Temperatura general cómoda"] }
+  ];
+  const SECMAP = {}; SEC.forEach(s=> SECMAP[s.id]=s);
+  function itemLabel(key){
+    const p = key.split("::"); const s = SECMAP[p[0]];
+    if(!s) return key;
+    const lbl = s.items[+p[1]] || ("punto "+p[1]);
+    return { sec:s.emoji+" "+s.title, label:lbl };
   }
 
-  async function fetchRespuestas(token){
-    const r = await fetch(SUPABASE_URL + "/rest/v1/respuestas?select=*&order=creado_en.desc", {
-      headers:{ "apikey":SUPABASE_ANON_KEY, "Authorization":"Bearer "+token }
-    });
-    if(r.status === 401){ const e = new Error("401"); e.unauthorized = true; throw e; }
-    const data = await r.json().catch(()=>[]);
-    if(!r.ok){ throw new Error((data && data.message) || ("HTTP "+r.status)); }
-    return Array.isArray(data) ? data : [];
-  }
+  const FINAL_LABELS = [
+    { key:"gusto",   cls:"gusto",   icon:"👍", title:"Lo que más gustó" },
+    { key:"molesto", cls:"molesto", icon:"👎", title:"Lo que molestó / sacó de onda" },
+    { key:"falta",   cls:"falta",   icon:"🧩", title:"Lo que faltó" },
+    { key:"libre",   cls:"libre",   icon:"💬", title:"Otros comentarios" }
+  ];
 
-  // ---------- Render ----------
   function fmtDate(iso){
     if(!iso) return "";
     try{ return new Date(iso).toLocaleString("es-MX",{ day:"2-digit", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit" }); }
     catch(e){ return iso; }
   }
 
-  function renderStats(rows){
+  // ---------- Análisis agregado ----------
+  function renderAnalysis(rows){
     const total = rows.length;
     const rated = rows.filter(r=> r.rating);
     const avg = rated.length ? (rated.reduce((a,r)=>a+r.rating,0)/rated.length).toFixed(1) : "—";
     const bien = rows.reduce((a,r)=>a+(r.avance_bien||0),0);
+    const reg  = rows.reduce((a,r)=>a+(r.avance_reg||0),0);
     const mal  = rows.reduce((a,r)=>a+(r.avance_mal||0),0);
-    $("#stats").innerHTML =
-      '<div class="stat"><div class="n">'+total+'</div><div class="l">Respuestas</div></div>'+
-      '<div class="stat"><div class="n">'+avg+'</div><div class="l">Calif. prom.</div></div>'+
-      '<div class="stat"><div class="n" style="color:var(--bien)">'+bien+'</div><div class="l">Puntos bien</div></div>'+
-      '<div class="stat"><div class="n" style="color:var(--mal)">'+mal+'</div><div class="l">Puntos mal</div></div>';
+
+    // recomendación
+    const rec = { "Sí, claro":0, "Tal vez":0, "No":0 };
+    rows.forEach(r=>{ if(r.recomienda && rec[r.recomienda]!=null) rec[r.recomienda]++; });
+    const recTot = rec["Sí, claro"]+rec["Tal vez"]+rec["No"] || 1;
+    const pct = n => (n/recTot*100).toFixed(0);
+
+    // focos de atención agregados
+    const agg = {};
+    rows.forEach(r=>{
+      const items = r.items || {};
+      Object.keys(items).forEach(k=>{
+        const v = items[k]; if(v!=="mal" && v!=="reg") return;
+        if(!agg[k]) agg[k] = { mal:0, reg:0 };
+        agg[k][v]++;
+      });
+    });
+    const problems = Object.keys(agg).map(k=>({ key:k, ...agg[k], score:agg[k].mal*2+agg[k].reg }))
+      .sort((a,b)=> b.score-a.score).slice(0,12);
+    const maxScore = problems.length ? problems[0].score : 1;
+
+    let html = "";
+
+    // Resumen general
+    html += '<div class="block"><div class="block-head"><h3>📊 Resumen general</h3></div><div class="block-body">'+
+      '<div class="stats">'+
+        '<div class="stat"><div class="n">'+total+'</div><div class="l">Respuestas</div></div>'+
+        '<div class="stat"><div class="n">'+avg+'</div><div class="l">Calif. prom.</div></div>'+
+        '<div class="stat"><div class="n" style="color:var(--bien)">'+bien+'</div><div class="l">Puntos bien</div></div>'+
+        '<div class="stat"><div class="n" style="color:var(--reg)">'+reg+'</div><div class="l">Regular</div></div>'+
+        '<div class="stat"><div class="n" style="color:var(--mal)">'+mal+'</div><div class="l">Mal</div></div>'+
+      '</div>'+
+      '<div class="recbar">'+
+        '<span style="width:'+pct(rec["Sí, claro"])+'%;background:var(--bien)"></span>'+
+        '<span style="width:'+pct(rec["Tal vez"])+'%;background:var(--reg)"></span>'+
+        '<span style="width:'+pct(rec["No"])+'%;background:var(--mal)"></span>'+
+      '</div>'+
+      '<div class="reclegend">'+
+        '<span><i class="dot" style="background:var(--bien)"></i>Sí volvería <b>'+rec["Sí, claro"]+'</b></span>'+
+        '<span><i class="dot" style="background:var(--reg)"></i>Tal vez <b>'+rec["Tal vez"]+'</b></span>'+
+        '<span><i class="dot" style="background:var(--mal)"></i>No <b>'+rec["No"]+'</b></span>'+
+      '</div>'+
+    '</div></div>';
+
+    // Focos de atención
+    html += '<div class="block"><div class="block-head"><h3>🚩 Focos de atención</h3><p>Puntos que más personas marcaron mal o regular</p></div><div class="block-body">';
+    if(!problems.length){
+      html += '<div class="cempty">Nadie marcó puntos como regular o mal. 👌</div>';
+    }else{
+      problems.forEach(pr=>{
+        const info = itemLabel(pr.key);
+        const malW = pr.mal/maxScore*100, regW = pr.reg/maxScore*100;
+        html += '<div class="problem">'+
+          '<div class="pl"><span class="sec">'+esc(info.sec)+'</span><br>'+esc(info.label)+'</div>'+
+          '<div class="pbar"><span class="mal" style="width:'+malW+'%"></span><span class="reg" style="width:'+regW+'%"></span></div>'+
+          '<div class="pcount">'+(pr.mal?'<span class="m">❌ '+pr.mal+' mal</span>':'')+(pr.reg?'<span class="r">⚠️ '+pr.reg+' regular</span>':'')+'</div>'+
+        '</div>';
+      });
+    }
+    html += '</div></div>';
+
+    // Comentarios agrupados
+    html += '<div class="block"><div class="block-head"><h3>💬 Comentarios</h3><p>Lo que escribieron, agrupado por tema</p></div><div class="block-body">';
+    FINAL_LABELS.forEach(fl=>{
+      const comments = [];
+      rows.forEach(r=>{
+        const f = r.final || {};
+        if(f[fl.key] && String(f[fl.key]).trim()) comments.push({ who:r.evaluador||"Anónima", txt:f[fl.key] });
+      });
+      html += '<div class="cgroup '+fl.cls+'"><div class="ct">'+fl.icon+' '+fl.title+' <span style="color:var(--muted);font-weight:600">('+comments.length+')</span></div>';
+      if(!comments.length){ html += '<div class="cempty">Sin comentarios.</div>'; }
+      else comments.forEach(c=>{ html += '<div class="comment">'+esc(c.txt)+'<div class="who">— '+esc(c.who)+'</div></div>'; });
+      html += '</div>';
+    });
+    html += '</div></div>';
+
+    $("#analysis").innerHTML = html;
   }
 
+  // ---------- Tarjetas individuales ----------
   function renderList(rows){
     $("#countN").textContent = rows.length;
     $("#countSub").textContent = rows.length ? ("Última: "+fmtDate(rows[0].creado_en)) : "";
-    renderStats(rows);
     const list = $("#list");
     if(!rows.length){
       list.innerHTML = '<div class="empty">Aún no hay respuestas.<br>Cuando alguien envíe la encuesta, aparecerá aquí.</div>';
@@ -194,6 +331,39 @@
         '<span class="tag reg">⚠️ '+(r.avance_reg||0)+'</span>'+
         '<span class="tag mal">❌ '+(r.avance_mal||0)+'</span>'+
         (r.avance_total ? '<span class="tag">'+((r.avance_bien||0)+(r.avance_reg||0)+(r.avance_mal||0))+'/'+r.avance_total+'</span>' : '');
+
+      // focos de esta respuesta
+      const flags = [];
+      const items = r.items || {};
+      Object.keys(items).forEach(k=>{
+        const v = items[k]; if(v!=="mal" && v!=="reg") return;
+        const info = itemLabel(k);
+        flags.push((v==="mal"?"❌ ":"⚠️ ")+esc(info.label)+' <span style="color:var(--muted)">· '+esc(info.sec)+'</span>');
+      });
+      let flagsHtml = "";
+      if(flags.length){ flagsHtml = '<div class="rc-block"><div class="h">Focos marcados</div>'+flags.map(f=>'<div class="rc-flag">'+f+'</div>').join("")+'</div>'; }
+
+      // comentarios
+      let comHtml = "";
+      const f = r.final || {};
+      const anyC = FINAL_LABELS.some(fl=> f[fl.key] && String(f[fl.key]).trim());
+      if(anyC){
+        comHtml = '<div class="rc-block"><div class="h">Comentarios</div>';
+        FINAL_LABELS.forEach(fl=>{ if(f[fl.key] && String(f[fl.key]).trim()){ comHtml += '<div class="rc-c"><span class="lbl">'+fl.icon+' '+fl.title+'</span>'+esc(f[fl.key])+'</div>'; } });
+        comHtml += '</div>';
+      }
+
+      // notas por área
+      let notesHtml = "";
+      const notes = r.notas || {};
+      const noteKeys = Object.keys(notes).filter(k=> notes[k] && String(notes[k]).trim());
+      if(noteKeys.length){
+        notesHtml = '<div class="rc-block"><div class="h">Notas por área</div>'+
+          noteKeys.map(k=>{ const s=SECMAP[k]; return '<div class="rc-c"><span class="lbl">'+(s?esc(s.emoji+" "+s.title):esc(k))+'</span>'+esc(notes[k])+'</div>'; }).join("")+'</div>';
+      }
+
+      const rawHtml = r.resumen ? '<details class="raw"><summary>Ver texto completo</summary><pre>'+esc(r.resumen)+'</pre></details>' : "";
+
       card.innerHTML =
         '<div class="rc-head">'+
           '<div class="rc-main"><div class="rc-name">'+nombre+'</div><div class="rc-sub">'+esc(sub)+'</div></div>'+
@@ -201,13 +371,34 @@
           '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>'+
         '</div>'+
         '<div class="rc-tags">'+tags+'</div>'+
-        '<div class="rc-body"><pre>'+esc(r.resumen || "(sin resumen)")+'</pre></div>';
+        '<div class="rc-body">'+(flagsHtml||'<div class="rc-block"><div class="cempty">Sin puntos marcados como regular o mal.</div></div>')+comHtml+notesHtml+rawHtml+'</div>';
       card.querySelector(".rc-head").addEventListener("click", ()=> card.classList.toggle("open"));
       list.appendChild(card);
     });
   }
 
-  // ---------- Flujo ----------
+  function render(rows){ renderAnalysis(rows); renderList(rows); }
+
+  // ---------- Auth + datos ----------
+  async function login(email, password){
+    const r = await fetch(SUPABASE_URL + "/auth/v1/token?grant_type=password", {
+      method:"POST", headers:{ "apikey":SUPABASE_ANON_KEY, "Content-Type":"application/json" },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await r.json().catch(()=>({}));
+    if(!r.ok){ throw new Error(data.error_description || data.msg || data.message || ("HTTP "+r.status)); }
+    return data.access_token;
+  }
+  async function fetchRespuestas(token){
+    const r = await fetch(SUPABASE_URL + "/rest/v1/respuestas?select=*&order=creado_en.desc", {
+      headers:{ "apikey":SUPABASE_ANON_KEY, "Authorization":"Bearer "+token }
+    });
+    if(r.status === 401){ const e = new Error("401"); e.unauthorized = true; throw e; }
+    const data = await r.json().catch(()=>[]);
+    if(!r.ok){ throw new Error((data && data.message) || ("HTTP "+r.status)); }
+    return Array.isArray(data) ? data : [];
+  }
+
   function showApp(){ loginView.hidden = true; appView.hidden = false; }
   function showLogin(){ appView.hidden = true; loginView.hidden = false; }
 
@@ -215,11 +406,9 @@
     const token = sessionStorage.getItem(TOKEN_KEY);
     if(!token){ showLogin(); return; }
     $("#list").innerHTML = '<div class="loading">Cargando respuestas…</div>';
-    showApp();
-    try{
-      const rows = await fetchRespuestas(token);
-      renderList(rows);
-    }catch(e){
+    showApp(); $("#logoutBtn").hidden = false;
+    try{ render(await fetchRespuestas(token)); }
+    catch(e){
       if(e.unauthorized){ sessionStorage.removeItem(TOKEN_KEY); showLogin(); return; }
       $("#list").innerHTML = '<div class="empty">No se pudieron cargar las respuestas.<br><small>'+esc(e.message||e)+'</small></div>';
     }
@@ -235,20 +424,23 @@
       if(!token) throw new Error("No se recibió sesión.");
       sessionStorage.setItem(TOKEN_KEY, token);
       cargar();
-    }catch(e){
-      errBox.textContent = "⚠️ "+(e.message||e);
-      errBox.style.display = "block";
-    }finally{
-      btn.disabled = false; btn.textContent = t;
-    }
+    }catch(e){ errBox.textContent = "⚠️ "+(e.message||e); errBox.style.display = "block"; }
+    finally{ btn.disabled = false; btn.textContent = t; }
   });
-
-  $("#refreshBtn").addEventListener("click", cargar);
+  $("#refreshBtn").addEventListener("click", ()=> DEMO ? render(window.DEMO_DATA) : cargar());
   $("#logoutBtn").addEventListener("click", ()=>{ sessionStorage.removeItem(TOKEN_KEY); showLogin(); });
 
-  // Al abrir: si ya hay sesión en esta pestaña, cargar directo
-  cargar();
+  // ---------- Arranque ----------
+  if(DEMO){
+    $("#demoBanner").hidden = false;
+    $("#refreshBtn").hidden = true;
+    showApp();
+    render(window.DEMO_DATA || []);
+  }else{
+    cargar();
+  }
 })();
 </script>
+<script src="demo-data.js"></script>
 </body>
 </html>
