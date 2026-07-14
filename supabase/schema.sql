@@ -48,3 +48,17 @@ create policy "authenticated puede leer respuestas"
   using (true);
 
 notify pgrst, 'reload schema';
+
+-- ============================================================
+-- Borrado desde el PANEL PRIVADO (botón "Eliminar respuesta")
+-- Solo usuarios autenticados pueden borrar. El rol anónimo NO.
+-- ============================================================
+grant delete on public.respuestas to authenticated;
+drop policy if exists "authenticated puede borrar respuestas" on public.respuestas;
+create policy "authenticated puede borrar respuestas"
+  on public.respuestas
+  for delete
+  to authenticated
+  using (true);
+
+notify pgrst, 'reload schema';

@@ -110,6 +110,8 @@
   .rc-c .lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:block;margin-bottom:2px;}
   details.raw{margin-top:6px;} details.raw summary{font-size:12px;color:var(--jade);cursor:pointer;font-weight:600;}
   details.raw pre{white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:12px;line-height:1.5;color:var(--ink);background:var(--bone);border:1px solid var(--line);border-radius:10px;padding:12px;margin:8px 0 0;}
+  .btn-del{margin-top:14px;background:var(--mal-bg);color:var(--mal);border:1px solid var(--mal);border-radius:10px;padding:9px 14px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;}
+  .btn-del:active{transform:scale(.98);} .btn-del:disabled{opacity:.6;cursor:default;}
 
   .empty,.loading{text-align:center;color:var(--muted);font-size:14px;padding:40px 16px;}
   .section-title{font-family:'Fraunces',serif;font-weight:500;font-size:15px;margin:22px 2px 10px;color:var(--ink);}
@@ -358,6 +360,7 @@
       }
 
       const rawHtml = r.resumen ? '<details class="raw"><summary>Ver texto completo</summary><pre>'+esc(r.resumen)+'</pre></details>' : "";
+      const delHtml = r.id ? '<button class="btn-del" data-id="'+esc(r.id)+'">🗑️ Eliminar esta respuesta</button>' : "";
 
       card.innerHTML =
         '<div class="rc-head">'+
@@ -366,8 +369,18 @@
           '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>'+
         '</div>'+
         '<div class="rc-tags">'+tags+'</div>'+
-        '<div class="rc-body">'+(flagsHtml||'<div class="rc-block"><div class="cempty">Sin puntos marcados como regular o mal.</div></div>')+comHtml+notesHtml+rawHtml+'</div>';
+        '<div class="rc-body">'+(flagsHtml||'<div class="rc-block"><div class="cempty">Sin puntos marcados como regular o mal.</div></div>')+comHtml+notesHtml+rawHtml+delHtml+'</div>';
       card.querySelector(".rc-head").addEventListener("click", ()=> card.classList.toggle("open"));
+      const delBtn = card.querySelector(".btn-del");
+      if(delBtn){
+        delBtn.addEventListener("click", async (ev)=>{
+          ev.stopPropagation();
+          if(!confirm("¿Eliminar la respuesta de "+(r.evaluador||"esta persona")+"? No se puede deshacer.")) return;
+          delBtn.disabled = true; delBtn.textContent = "Eliminando…";
+          try{ await borrarRespuesta(r.id); cargar(); }
+          catch(e){ alert("No se pudo eliminar.\n"+(e.message||e)); delBtn.disabled = false; delBtn.textContent = "🗑️ Eliminar esta respuesta"; }
+        });
+      }
       list.appendChild(card);
     });
   }
@@ -392,6 +405,15 @@
     const data = await r.json().catch(()=>[]);
     if(!r.ok){ throw new Error((data && data.message) || ("HTTP "+r.status)); }
     return Array.isArray(data) ? data : [];
+  }
+  async function borrarRespuesta(id){
+    const token = sessionStorage.getItem(TOKEN_KEY);
+    const r = await fetch(SUPABASE_URL + "/rest/v1/respuestas?id=eq." + encodeURIComponent(id), {
+      method:"DELETE",
+      headers:{ "apikey":SUPABASE_ANON_KEY, "Authorization":"Bearer "+token, "Prefer":"return=minimal" }
+    });
+    if(!r.ok){ const d = await r.text().catch(()=> ""); throw new Error("HTTP " + r.status + " · " + (d || r.statusText)); }
+    return true;
   }
 
   function showApp(){ loginView.hidden = true; appView.hidden = false; }
